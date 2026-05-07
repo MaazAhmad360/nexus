@@ -9,6 +9,7 @@ from .schema import PostSchema
 from django.utils.timesince import timesince
 from django.utils import timezone
 from .schema import ConversationMessagesSchema, NewMessageSchema
+from .utils import emit_socket_event
 
 message_router = NinjaAPI(urls_namespace='message_api')
 
@@ -106,6 +107,16 @@ def get_chat_messages(request, payload: NewMessageSchema) -> Response:
             consumer=receiver_profile,
             content=payload.content,
             created_at=timezone.now()
+        )
+
+        emit_socket_event(
+            payload.receiver_username, 
+            "receiveMessage", 
+            {
+                "chatId": payload.convo_id, 
+                "message": payload.content, 
+                "sender": request.user.username
+            }
         )
 
         return Response({"message": "Message created successfully"}, status=200)

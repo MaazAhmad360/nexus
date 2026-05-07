@@ -10,6 +10,7 @@ import os
 from django.utils import timezone
 from django.utils.timesince import timesince
 from django.conf import settings
+from .utils import emit_socket_event
 
 
 post_router = NinjaAPI(urls_namespace='postAPI')
@@ -110,6 +111,11 @@ def like_post(request, payload: PostSchema) -> Response:
             notify_text=f"{request.user.username} liked your post.",
             notify_post=post  
         )
+        emit_socket_event(
+            post.user_id.username,
+            "newNotification",
+            {"message": f"{request.user.username} liked your post."}
+        )
     else:
         post.likes_list.remove(request.user)
         message = "Post unliked successfully"
@@ -143,6 +149,11 @@ def create_comment(request, payload: CommentSchema) -> Response:
         notify_text=f"{request.user.username} commented on your post: {
             payload.comment_message}",
         notify_post=post
+    )
+    emit_socket_event(
+        post.user_id.username,
+        "newNotification",
+        {"message": f"{request.user.username} commented on your post."}
     )
 
     return Response({

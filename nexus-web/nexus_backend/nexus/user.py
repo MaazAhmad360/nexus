@@ -14,6 +14,7 @@ from ninja import Body
 from .schema import UserSchema, UserSchema, SearchFollowSchema
 from django.contrib.auth.hashers import make_password
 from django.utils.timesince import timesince
+from .utils import emit_socket_event
 
 user_router = NinjaAPI(urls_namespace='userAPI')
 
@@ -264,6 +265,11 @@ def follow_user(request, payload: UserSchema) -> Response:
             notify_text=f"{
                 request.user.username} has sent you a follow request."
         )
+        emit_socket_event(
+            user_to_follow.username,
+            "newNotification",
+            {"message": f"{request.user.username} has sent you a follow request."}
+        )
 
         return Response({
             "success": True,
@@ -353,6 +359,11 @@ def accept_follow_request(request, payload: UserSchema) -> Response:
         notify_to=requester,
         notify_type="Follow Accepted",
         notify_text=f"{request.user.username} accepted your follow request"
+    )
+    emit_socket_event(
+        requester.username,
+        "newNotification",
+        {"message": f"{request.user.username} accepted your follow request"}
     )
 
     Notification.objects.create(
