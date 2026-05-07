@@ -1,21 +1,15 @@
 import Link from "next/link";
-import Image from "next/image";
 
 const SidebarLink = (props) => {
+  const IconComponent = props.icon;
   return (
     <li>
       <Link
         href={props.link}
-        className={`p-2 relative overflow-hidden ripple w-full flex items-center hover:bg-gray-700 transition-all duration-300 rounded-lg`}
+        className={`p-3 relative overflow-hidden group w-full flex items-center hover:bg-neutral-800 transition-all duration-300 rounded-2xl font-medium`}
       >
-        <Image
-          src={props.icon}
-          alt={props.text}
-          width={10}
-          height={10}
-          className="size-8 opacity-75"
-        />
-        <span className="text-sm ml-3 self-center h-fit hidden lg:inline-block">
+        <IconComponent className="size-6 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform duration-300 stroke-[1.5]" />
+        <span className="text-base ml-4 self-center h-fit hidden lg:inline-block">
           {props.text}
         </span>
       </Link>

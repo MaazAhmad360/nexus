@@ -94,7 +94,7 @@ const Page = () => {
               <div className="flex gap-x-3 md:gap-x-5 lg:gap-x-10 font-semibold text-sm lg:text-lg">
                 <div className="flex flex-col items-center">
                   <span>{currentUser.posts.length}</span>
-                  <span>posts</span>
+                  <span className="text-neutral-400 text-xs font-medium uppercase tracking-wider mt-1">posts</span>
                 </div>
                 <div
                   className="flex flex-col items-center cursor-pointer"
@@ -106,7 +106,7 @@ const Page = () => {
                   }}
                 >
                   <span>{currentUser.followers_count}</span>
-                  <span>followers</span>
+                  <span className="text-neutral-400 text-xs font-medium uppercase tracking-wider mt-1">followers</span>
                 </div>
                 <div
                   className="flex flex-col items-center cursor-pointer"
@@ -118,7 +118,7 @@ const Page = () => {
                   }}
                 >
                   <span>{currentUser.following_count}</span>
-                  <span>following</span>
+                  <span className="text-neutral-400 text-xs font-medium uppercase tracking-wider mt-1">following</span>
                 </div>
               </div>
               <div>
@@ -180,8 +180,8 @@ const Page = () => {
       currentUser &&
       (currentUser.user_is_himself || currentUser.follows_searched_user) ? (
         <div className="text-center w-full relative">
-          <div className="w-full h-[1px] bg-gray-800 mb-[-1px]"></div>
-          <div className="border-t border-white pt-5 w-fit absolute left-[50%] font-semibold text-sm">
+          <div className="w-full h-[1px] bg-neutral-800 mb-[-1px]"></div>
+          <div className="border-t border-neutral-300 pt-5 w-fit absolute left-[50%] -translate-x-[50%] font-semibold text-sm tracking-widest text-neutral-300">
             POSTS
           </div>
           <div className="flex flex-wrap gap-2 mt-20">

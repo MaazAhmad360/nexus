@@ -14,15 +14,15 @@ const StoryItem = (props) => {
         }}
         className="w-20 h-full flex flex-col items-center"
       >
-        <Image
-          className={`w-20 h-20 rounded-full object-cover p-1 ${
-            props.hasNew ? "border-2 border-green-500" : ""
-          }`}
-          width={10}
-          height={10}
-          src={`${process.env.NEXT_PUBLIC_URL}${props.profilePicture}`}
-          alt="profile"
-        />
+        <div className={`rounded-full p-[2px] transition-transform hover:scale-105 duration-300 ${props.hasNew ? "bg-gradient-to-tr from-maroon to-amber-500" : "border-2 border-beige-dark"}`}>
+          <Image
+            className="w-16 h-16 rounded-full object-cover border-2 border-cream"
+            width={64}
+            height={64}
+            src={`${process.env.NEXT_PUBLIC_URL}${props.profilePicture}`}
+            alt="profile"
+          />
+        </div>
         <span className="max-w-full text-center text-sm break-words line-clamp-1 mt-1">
           {props.username}
         </span>

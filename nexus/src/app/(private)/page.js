@@ -42,7 +42,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col w-full items-center lg:items-start">
-      <div className="flex gap-x-4 w-full overflow-auto custom-scroll-hide p-5 border-b border-gray-800">
+      <div className="flex gap-x-4 w-full overflow-auto custom-scroll-hide p-5 border-b border-beige-dark">
         {allStories.length !== 0 ? (
           allStories.map((item) => {
             return (

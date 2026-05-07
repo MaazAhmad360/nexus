@@ -3,17 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
 }
 
 @layer utilities {
@@ -29,21 +20,23 @@
 }
 
 body {
-  /* color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
+  color: var(--foreground);
+  background-color: var(--background);
   overflow-x: hidden;
-  overflow-x: none;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .glass-panel {
+    @apply bg-neutral-950/80 backdrop-blur-xl border border-neutral-800 shadow-sm;
+  }
+  .glass-card {
+    @apply bg-neutral-900/50 backdrop-blur-lg border border-neutral-800/50 shadow-xl rounded-3xl;
   }
 }
 
@@ -52,12 +45,8 @@ li {
 }
 
 @keyframes underline-expand {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+  from { width: 0; }
+  to { width: 100%; }
 }
 
 .underline-expand {
@@ -71,8 +60,8 @@ li {
   bottom: 0;
   left: 0;
   width: 0;
-  height: 2px; /* Adjust thickness of the underline */
-  background-color: #6b7280; /* Matches the color of the text */
+  height: 2px;
+  background-color: #f5f5f5;
   transition: width 0.3s ease-in-out;
 }
 
@@ -86,23 +75,22 @@ li {
   transition: all ease-in-out 0.3s;
 }
 .ripple-button:hover {
-  background: #000 radial-gradient(circle, transparent 1%, #000 1%)
-    center/15000%;
+  background: #171717 radial-gradient(circle, transparent 1%, #171717 1%) center/15000%;
 }
 .ripple-button:active {
   outline: none;
-  background-color: #6b7280;
+  background-color: #262626;
   background-size: 100%;
   transition: all ease-in-out 0s;
 }
 
 .custom-scroll-hide::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+  display: none;
 }
 
 .custom-scroll-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .expand {
@@ -111,12 +99,8 @@ li {
 }
 
 @keyframes expandAnimation {
-  from {
-    height: 0;
-  }
-  to {
-    height: 80%;
-  }
+  from { height: 0; }
+  to { height: 80%; }
 }
 
 .fill-width {
@@ -125,23 +109,13 @@ li {
 }
 
 @keyframes widthAnimation {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+  from { width: 0; }
+  to { width: 100%; }
 }
 
 @keyframes slide-in-top {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  0% { transform: translateY(-100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
 .animate-slide-in-top {
@@ -154,10 +128,6 @@ li {
 }
 
 @keyframes collapseAnimation {
-  from {
-    height: 70%;
-  }
-  to {
-    height: 0;
-  }
+  from { height: 70%; }
+  to { height: 0; }
 }

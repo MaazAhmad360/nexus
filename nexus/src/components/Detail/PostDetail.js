@@ -3,42 +3,41 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import LikeLogo from "../../assets/notification.png";
-import ActiveLikeLogo from "../../assets/activeNotification.png";
-import DeleteLogo from "../../assets/delete.png";
-import CommentLogo from "../../assets/comment.svg";
+import { Heart, MessageCircle, Trash2, MoreHorizontal } from "lucide-react";
 import Slideup from "../Layout/Slideup";
 import usePost from "../hooks/Post/usePost";
 import ConfirmationModal from "../Layout/ConfirmationModal";
 
+import PlaceholderLogo from "../../assets/mountain.JPG";
+
 const Comments = [
   {
     username: "zayn_malik",
-    profilePicture: CommentLogo,
+    profilePicture: PlaceholderLogo,
     commentText:
       "A random comment with some dyummy textwhcbeywcblebc lhb cl2jdnj2o jlndjknd2f  i3ndu24fb jbfi24fb 24fbo42ufbiy34fb k2fhu",
   },
   {
     username: "zayn_malik",
-    profilePicture: CommentLogo,
+    profilePicture: PlaceholderLogo,
     commentText:
       "A random comment with some dyummy textwhcbeywcblebc lhb cl2jdnj2o jlndjknd2f  i3ndu24fb jbfi24fb 24fbo42ufbiy34fb k2fhu",
   },
   {
     username: "zayn_malik",
-    profilePicture: CommentLogo,
+    profilePicture: PlaceholderLogo,
     commentText:
       "A random comment with some dyummy textwhcbeywcblebc lhb cl2jdnj2o jlndjknd2f  i3ndu24fb jbfi24fb 24fbo42ufbiy34fb k2fhu",
   },
   {
     username: "zayn_malik",
-    profilePicture: CommentLogo,
+    profilePicture: PlaceholderLogo,
     commentText:
       "A random comment with some dyummy textwhcbeywcblebc lhb cl2jdnj2o jlndjknd2f  i3ndu24fb jbfi24fb 24fbo42ufbiy34fb k2fhu",
   },
   {
     username: "zayn_malik",
-    profilePicture: CommentLogo,
+    profilePicture: PlaceholderLogo,
     commentText:
       "A random comment with some dyummy textwhcbeywcblebc lhb cl2jdnj2o jlndjknd2f  i3ndu24fb jbfi24fb 24fbo42ufbiy34fb k2fhu",
   },
@@ -73,16 +72,17 @@ const PostDetail = (props) => {
 
   const editHandler = () => {
     setIsEditingCaption(true);
-    const input = document.getElementById(`post${props.id}`);
-
-    input.disabled = false;
-    input.focus();
-
-    input.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => {
+      const input = document.getElementById(`post-input-${props.id}`);
+      if (input) {
+        input.focus();
+        input.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 0);
   };
 
   return (
-    <div className="flex flex-col w-full max-w-[500px] gap-y-2 border-b border-gray-800 py-10">
+    <div className="flex flex-col w-full max-w-[500px] gap-y-3 glass-card p-6 mb-8 mt-4 transition-transform hover:-translate-y-1 hover:shadow-xl duration-500">
       <div className="flex justify-between items-center">
         <Link href={`/profile/${props.username}`} className="flex items-center">
           <Image
@@ -99,21 +99,15 @@ const PostDetail = (props) => {
         </Link>
         {props.isOwner && (
           <div className="flex gap-x-4">
-            <div
-              className="hover:cursor-pointer font-bold text-lg mt-[-3px] h-fit"
+            <MoreHorizontal
+              className="hover:cursor-pointer text-neutral-400 hover:text-white transition-colors h-6 w-6 mt-[1px]"
               onClick={editHandler}
-            >
-              ...
-            </div>
-            <Image
-              width={25}
-              height={25}
-              src={DeleteLogo}
+            />
+            <Trash2
+              className="hover:cursor-pointer text-neutral-400 hover:text-red-500 transition-colors h-5 w-5 mt-[3px]"
               onClick={() => {
                 modalHandler(true);
               }}
-              className="cursor-pointer"
-              alt="delete"
             />
             {/* <div
               className="hover:cursor-pointer  text-lg"
@@ -128,33 +122,25 @@ const PostDetail = (props) => {
       </div>
       <Image
         src={`${process.env.NEXT_PUBLIC_URL}${props.post}`}
-        className="rounded-md mb-3"
+        className="rounded-2xl mb-3 shadow-sm"
         width={500} // Set your desired width
         height={300} // Set your desired height
         objectFit="contain"
         alt="post"
       />
-      <div className="flex flex-col">
-        <div className="flex gap-x-2">
-          <Image
-            width={25}
-            height={25}
-            src={hasLiked ? ActiveLikeLogo : LikeLogo}
-            className={`cursor-pointer`}
-            alt="like"
+      <div className="flex flex-col mt-2">
+        <div className="flex gap-x-4">
+          <Heart
+            className={`cursor-pointer hover:scale-110 active:scale-95 transition-all duration-200 h-7 w-7 ${hasLiked ? "fill-red-500 text-red-500" : "text-neutral-400 hover:text-white"}`}
             onClick={likeHandler}
           />
-          <Image
-            width={25}
-            height={25}
-            src={CommentLogo}
+          <MessageCircle
+            className="cursor-pointer hover:scale-110 active:scale-95 transition-all duration-200 h-7 w-7 text-neutral-400 hover:text-white"
             onClick={() => {
               setHeading("Comments");
               setMode("comment");
               slideupHandler(true);
             }}
-            className="cursor-pointer"
-            alt="comment"
           />
         </div>
         <span
@@ -180,6 +166,7 @@ const PostDetail = (props) => {
           </span>
           {isEditingCaption ? (
             <textarea
+              id={`post-input-${props.id}`}
               defaultValue={caption}
               disabled={!isEditingCaption}
               // onBlur={() => {
@@ -206,7 +193,7 @@ const PostDetail = (props) => {
           </button>
         )}
       </span>
-      <span className="text-xs text-gray-400 font-semibold">
+      <span className="text-xs text-espresso-light font-medium mt-1">
         {props.time} ago
       </span>
       {isSlideupOpen && (
