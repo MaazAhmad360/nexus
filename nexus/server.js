@@ -10,7 +10,28 @@ const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
 
 app.prepare().then(() => {
-  const httpServer = createServer(handler);
+  const httpServer = createServer((req, res) => {
+    if (req.method === "POST" && req.url === "/api/internal/socket") {
+      let body = "";
+      req.on("data", (chunk) => {
+        body += chunk;
+      });
+      req.on("end", () => {
+        try {
+          const data = JSON.parse(body);
+          // Emit the event to the specified room (which will be the username)
+          io.to(data.room).emit(data.event, data.payload);
+          res.writeHead(200);
+          res.end("OK");
+        } catch (e) {
+          res.writeHead(400);
+          res.end("Bad Request");
+        }
+      });
+      return;
+    }
+    return handler(req, res);
+  });
 
   console.log("HTTP", httpServer);
 
@@ -21,10 +42,11 @@ app.prepare().then(() => {
     console.log("Client connected");
 
     socket.on("join", (data) => {
-      console.log("JOIN CALLED");
+      console.log("JOIN CALLED", data);
       const { chatId, username } = data;
-      socket.join(chatId);
-      console.log("User joined chat:", chatId);
+      if (chatId) socket.join(chatId);
+      if (username) socket.join(username);
+      console.log("User joined chat/global room:", chatId, username);
     });
 
     socket.on("sendMessage", (data) => {
