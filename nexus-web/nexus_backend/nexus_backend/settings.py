@@ -49,8 +49,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'ninja_jwt',
     'rest_framework_simplejwt.token_blacklist',
-    'celery',
-    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -169,8 +167,3 @@ import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC'
